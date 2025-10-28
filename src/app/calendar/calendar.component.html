@@ -1,27 +1,22 @@
-<div class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 p-4">
-  <div class="max-w-md mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-pink-300">
+<div class="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-blue-50 p-6">
+  <div class="max-w-2xl mx-auto">
     <!-- Cabecera del calendario -->
-    <div class="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 p-6 relative overflow-hidden">
-      <!-- Elementos decorativos -->
-      <div class="absolute bottom-2 left-10 text-2xl opacity-30">✨</div>
-      <div class="absolute bottom-2 right-10 text-2xl opacity-30">🌟</div>
-      <div class="absolute top-2 right-1/4 text-xl opacity-20">💫</div>
-
-      <div class="flex items-center justify-between mb-2 relative z-10">
+    <div class="bg-white rounded-2xl shadow-lg mb-6 p-4">
+      <div class="flex items-center justify-between gap-4">
         <button
           (click)="previousMonth()"
-          class="p-3 rounded-full bg-white/30 hover:bg-white/50 active:scale-95 transition-all shadow-lg">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+          class="p-2 rounded-lg bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 active:scale-95 transition-all shadow-md">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
           </svg>
         </button>
 
-        <h2 class="text-2xl font-black text-white drop-shadow-lg">{{ currentMonth() }}</h2>
+        <h2 class="text-2xl font-bold text-gray-800 flex-1 text-center">{{ currentMonth() }}</h2>
 
         <button
           (click)="nextMonth()"
-          class="p-3 rounded-full bg-white/30 hover:bg-white/50 active:scale-95 transition-all shadow-lg">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+          class="p-2 rounded-lg bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500 active:scale-95 transition-all shadow-md">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
           </svg>
         </button>
@@ -29,11 +24,11 @@
     </div>
 
     <!-- Cuadrícula del calendario -->
-    <div class="p-5 bg-gradient-to-b from-yellow-50 to-white">
+    <div class="bg-white rounded-2xl shadow-lg p-6">
       <!-- Cabeceras de días de la semana -->
       <div class="grid grid-cols-7 gap-2 mb-3">
         @for (day of weekDays; track day) {
-          <div class="text-center text-xs font-black text-purple-600 py-2 bg-yellow-100 rounded-xl border-2 border-yellow-300 shadow-sm">
+          <div class="text-center text-sm font-bold text-gray-700 py-2">
             {{ day }}
           </div>
         }
@@ -43,59 +38,54 @@
       <div class="grid grid-cols-7 gap-2">
         @for (calendarDay of calendarDays(); track calendarDay.date) {
           <div
-            class="aspect-square flex flex-col items-center justify-center rounded-2xl text-base font-black transition-all cursor-pointer relative border-3 transform hover:scale-105 active:scale-95"
+            class="aspect-square flex items-center justify-center rounded-xl transition-all cursor-pointer text-2xl font-bold"
             [ngClass]="{
-              'bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-xl border-4 border-blue-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'M1',
-              'bg-gradient-to-br from-green-400 to-green-600 text-white shadow-xl border-4 border-green-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'M2',
-              'bg-gradient-to-br from-yellow-300 to-yellow-400 text-gray-800 shadow-xl border-4 border-yellow-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'FREE',
-              'bg-gradient-to-br from-orange-400 to-orange-600 text-white shadow-xl border-4 border-orange-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'AFTERNOON',
-              'bg-gradient-to-br from-pink-400 to-pink-600 text-white shadow-xl border-4 border-pink-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'FULL',
+              'bg-blue-500 text-white shadow-xl ring-4 ring-blue-300': calendarDay.isToday && calendarDay.shiftType === 'M1',
+              'bg-green-500 text-white shadow-xl ring-4 ring-green-300': calendarDay.isToday && calendarDay.shiftType === 'M2',
+              'bg-yellow-400 text-gray-900 shadow-xl ring-4 ring-yellow-300': calendarDay.isToday && calendarDay.shiftType === 'FREE',
+              'bg-orange-500 text-white shadow-xl ring-4 ring-orange-300': calendarDay.isToday && calendarDay.shiftType === 'AFTERNOON',
+              'bg-pink-500 text-white shadow-xl ring-4 ring-pink-300': calendarDay.isToday && calendarDay.shiftType === 'FULL',
 
-              'bg-gradient-to-br from-blue-200 to-blue-300 text-blue-900 border-2 border-blue-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'M1',
-              'bg-gradient-to-br from-green-200 to-green-300 text-green-900 border-2 border-green-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'M2',
-              'bg-gradient-to-br from-yellow-100 to-yellow-200 text-gray-700 border-2 border-yellow-300 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'FREE',
-              'bg-gradient-to-br from-orange-200 to-orange-300 text-orange-900 border-2 border-orange-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'AFTERNOON',
-              'bg-gradient-to-br from-pink-200 to-pink-300 text-pink-900 border-2 border-pink-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'FULL',
+              'bg-blue-100 text-blue-900 hover:bg-blue-200': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'M1',
+              'bg-green-100 text-green-900 hover:bg-green-200': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'M2',
+              'bg-yellow-100 text-gray-800 hover:bg-yellow-200': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'FREE',
+              'bg-orange-100 text-orange-900 hover:bg-orange-200': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'AFTERNOON',
+              'bg-pink-100 text-pink-900 hover:bg-pink-200': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'FULL',
 
-              'bg-transparent text-gray-300 border-2 border-transparent': !calendarDay.isCurrentMonth
+              'bg-blue-50 text-blue-300 hover:bg-blue-100': !calendarDay.isCurrentMonth && calendarDay.shiftType === 'M1',
+              'bg-green-50 text-green-300 hover:bg-green-100': !calendarDay.isCurrentMonth && calendarDay.shiftType === 'M2',
+              'bg-yellow-50 text-gray-400 hover:bg-yellow-100': !calendarDay.isCurrentMonth && calendarDay.shiftType === 'FREE',
+              'bg-orange-50 text-orange-300 hover:bg-orange-100': !calendarDay.isCurrentMonth && calendarDay.shiftType === 'AFTERNOON',
+              'bg-pink-50 text-pink-300 hover:bg-pink-100': !calendarDay.isCurrentMonth && calendarDay.shiftType === 'FULL'
             }">
-            <div class="text-sm leading-none mb-1">
-              @if (calendarDay.isCurrentMonth) {
-                @if (calendarDay.shiftType === 'M1') { 🐰 }
-                @if (calendarDay.shiftType === 'M2') { 🐱 }
-                @if (calendarDay.shiftType === 'FREE') { ⭐ }
-                @if (calendarDay.shiftType === 'AFTERNOON') { 🐹 }
-                @if (calendarDay.shiftType === 'FULL') { 🐶 }
-              }
-            </div>
-            <div class="text-base">{{ calendarDay.day }}</div>
+            {{ calendarDay.day }}
           </div>
         }
       </div>
 
       <!-- Leyenda -->
-      <div class="mt-6 pt-4 border-t-4 border-purple-200">
-        <h3 class="text-base font-black text-purple-600 mb-4 text-center">Horario de Trabajo</h3>
-        <div class="grid grid-cols-1 gap-3 text-sm">
-          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-blue-100 to-blue-200 rounded-xl border-2 border-blue-300 shadow-sm">
-            <div class="text-2xl">🐰</div>
-            <span class="font-bold text-blue-900">Turno Mañana 1 (M1)</span>
+      <div class="mt-8 pt-6 border-t-2 border-gray-200">
+        <h3 class="text-xl font-bold text-gray-800 mb-5">Horario de Trabajo</h3>
+        <div class="grid grid-cols-1 gap-4">
+          <div class="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
+            <div class="text-3xl">🐰</div>
+            <span class="text-lg font-semibold text-blue-900">Turno Mañana 1 (M1)</span>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-green-100 to-green-200 rounded-xl border-2 border-green-300 shadow-sm">
-            <div class="text-2xl">🐱</div>
-            <span class="font-bold text-green-900">Turno Mañana 2 (M2)</span>
+          <div class="flex items-center gap-4 p-4 bg-green-50 rounded-xl">
+            <div class="text-3xl">🐱</div>
+            <span class="text-lg font-semibold text-green-900">Turno Mañana 2 (M2)</span>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-orange-100 to-orange-200 rounded-xl border-2 border-orange-300 shadow-sm">
-            <div class="text-2xl">🐹</div>
-            <span class="font-bold text-orange-900">Turno Tarde</span>
+          <div class="flex items-center gap-4 p-4 bg-orange-50 rounded-xl">
+            <div class="text-3xl">🐹</div>
+            <span class="text-lg font-semibold text-orange-900">Turno Tarde</span>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-pink-100 to-pink-200 rounded-xl border-2 border-pink-300 shadow-sm">
-            <div class="text-2xl">🐶</div>
-            <span class="font-bold text-pink-900">Turno Completo</span>
+          <div class="flex items-center gap-4 p-4 bg-pink-50 rounded-xl">
+            <div class="text-3xl">🐶</div>
+            <span class="text-lg font-semibold text-pink-900">Turno Completo</span>
           </div>
-          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-yellow-100 to-yellow-200 rounded-xl border-2 border-yellow-300 shadow-sm">
-            <div class="text-2xl">⭐</div>
-            <span class="font-bold text-gray-700">Día Libre</span>
+          <div class="flex items-center gap-4 p-4 bg-yellow-50 rounded-xl">
+            <div class="text-3xl">⭐</div>
+            <span class="text-lg font-semibold text-gray-800">Día Libre</span>
           </div>
         </div>
       </div>
