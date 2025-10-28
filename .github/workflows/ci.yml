@@ -33,9 +33,7 @@ jobs:
         run: npm ci
 
       - name: Build application
-        env:
-          PUBLIC_PATH: /manantial/
-        run: npx nx build manantial --configuration=production
+        run: npx nx build manantial --configuration=production --base-href=/manantial/
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
@@ -67,9 +65,7 @@ jobs:
         run: npm ci
 
       - name: Build application with PR base path
-        env:
-          PUBLIC_PATH: /manantial/pr-${{ github.event.pull_request.number }}/
-        run: npx nx build manantial --configuration=production
+        run: npx nx build manantial --configuration=production --base-href=/manantial/pr-${{ github.event.pull_request.number }}/
 
       - name: Deploy PR preview to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
