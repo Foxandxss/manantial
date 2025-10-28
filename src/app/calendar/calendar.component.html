@@ -1,0 +1,104 @@
+<div class="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 p-4">
+  <div class="max-w-md mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-pink-300">
+    <!-- Cabecera del calendario -->
+    <div class="bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 p-6 relative overflow-hidden">
+      <!-- Elementos decorativos -->
+      <div class="absolute bottom-2 left-10 text-2xl opacity-30">✨</div>
+      <div class="absolute bottom-2 right-10 text-2xl opacity-30">🌟</div>
+      <div class="absolute top-2 right-1/4 text-xl opacity-20">💫</div>
+
+      <div class="flex items-center justify-between mb-2 relative z-10">
+        <button
+          (click)="previousMonth()"
+          class="p-3 rounded-full bg-white/30 hover:bg-white/50 active:scale-95 transition-all shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"></path>
+          </svg>
+        </button>
+
+        <h2 class="text-2xl font-black text-white drop-shadow-lg">{{ currentMonth() }}</h2>
+
+        <button
+          (click)="nextMonth()"
+          class="p-3 rounded-full bg-white/30 hover:bg-white/50 active:scale-95 transition-all shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cuadrícula del calendario -->
+    <div class="p-5 bg-gradient-to-b from-yellow-50 to-white">
+      <!-- Cabeceras de días de la semana -->
+      <div class="grid grid-cols-7 gap-2 mb-3">
+        @for (day of weekDays; track day) {
+          <div class="text-center text-xs font-black text-purple-600 py-2 bg-yellow-100 rounded-xl border-2 border-yellow-300 shadow-sm">
+            {{ day }}
+          </div>
+        }
+      </div>
+
+      <!-- Días del calendario -->
+      <div class="grid grid-cols-7 gap-2">
+        @for (calendarDay of calendarDays(); track calendarDay.date) {
+          <div
+            class="aspect-square flex flex-col items-center justify-center rounded-2xl text-base font-black transition-all cursor-pointer relative border-3 transform hover:scale-105 active:scale-95"
+            [ngClass]="{
+              'bg-gradient-to-br from-blue-400 to-blue-600 text-white shadow-xl border-4 border-blue-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'M1',
+              'bg-gradient-to-br from-green-400 to-green-600 text-white shadow-xl border-4 border-green-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'M2',
+              'bg-gradient-to-br from-yellow-300 to-yellow-400 text-gray-800 shadow-xl border-4 border-yellow-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'FREE',
+              'bg-gradient-to-br from-orange-400 to-orange-600 text-white shadow-xl border-4 border-orange-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'AFTERNOON',
+              'bg-gradient-to-br from-pink-400 to-pink-600 text-white shadow-xl border-4 border-pink-300 scale-110': calendarDay.isToday && calendarDay.shiftType === 'FULL',
+
+              'bg-gradient-to-br from-blue-200 to-blue-300 text-blue-900 border-2 border-blue-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'M1',
+              'bg-gradient-to-br from-green-200 to-green-300 text-green-900 border-2 border-green-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'M2',
+              'bg-gradient-to-br from-yellow-100 to-yellow-200 text-gray-700 border-2 border-yellow-300 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'FREE',
+              'bg-gradient-to-br from-orange-200 to-orange-300 text-orange-900 border-2 border-orange-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'AFTERNOON',
+              'bg-gradient-to-br from-pink-200 to-pink-300 text-pink-900 border-2 border-pink-400 shadow-md': !calendarDay.isToday && calendarDay.isCurrentMonth && calendarDay.shiftType === 'FULL',
+
+              'bg-transparent text-gray-300 border-2 border-transparent': !calendarDay.isCurrentMonth
+            }">
+            <div class="text-sm leading-none mb-1">
+              @if (calendarDay.isCurrentMonth) {
+                @if (calendarDay.shiftType === 'M1') { 🐰 }
+                @if (calendarDay.shiftType === 'M2') { 🐱 }
+                @if (calendarDay.shiftType === 'FREE') { ⭐ }
+                @if (calendarDay.shiftType === 'AFTERNOON') { 🐹 }
+                @if (calendarDay.shiftType === 'FULL') { 🐶 }
+              }
+            </div>
+            <div class="text-base">{{ calendarDay.day }}</div>
+          </div>
+        }
+      </div>
+
+      <!-- Leyenda -->
+      <div class="mt-6 pt-4 border-t-4 border-purple-200">
+        <h3 class="text-base font-black text-purple-600 mb-4 text-center">Horario de Trabajo</h3>
+        <div class="grid grid-cols-1 gap-3 text-sm">
+          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-blue-100 to-blue-200 rounded-xl border-2 border-blue-300 shadow-sm">
+            <div class="text-2xl">🐰</div>
+            <span class="font-bold text-blue-900">Turno Mañana 1 (M1)</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-green-100 to-green-200 rounded-xl border-2 border-green-300 shadow-sm">
+            <div class="text-2xl">🐱</div>
+            <span class="font-bold text-green-900">Turno Mañana 2 (M2)</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-orange-100 to-orange-200 rounded-xl border-2 border-orange-300 shadow-sm">
+            <div class="text-2xl">🐹</div>
+            <span class="font-bold text-orange-900">Turno Tarde</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-pink-100 to-pink-200 rounded-xl border-2 border-pink-300 shadow-sm">
+            <div class="text-2xl">🐶</div>
+            <span class="font-bold text-pink-900">Turno Completo</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gradient-to-r from-yellow-100 to-yellow-200 rounded-xl border-2 border-yellow-300 shadow-sm">
+            <div class="text-2xl">⭐</div>
+            <span class="font-bold text-gray-700">Día Libre</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

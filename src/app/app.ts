@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { CalendarComponent } from './calendar/calendar.component';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
+  imports: [CalendarComponent, RouterModule],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
