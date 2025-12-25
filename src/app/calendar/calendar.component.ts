@@ -66,9 +66,10 @@ export class CalendarComponent {
     }
 
     // From January 10, 2026 onwards: 4-week rotation starting at Week 3
-    const daysSinceStart = Math.floor(
-      (date.getTime() - this.scheduleReferenceMonday.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    // Use UTC to avoid DST issues (e.g., March 30 DST transition causing off-by-one errors)
+    const dateUtc = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+    const refUtc = Date.UTC(2026, 0, 5); // January 5, 2026 in UTC
+    const daysSinceStart = Math.floor((dateUtc - refUtc) / (1000 * 60 * 60 * 24));
 
     // Calculate which week in the 4-week cycle (0-3)
     const weeksSinceStart = Math.floor(daysSinceStart / 7);
